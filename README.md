@@ -77,6 +77,87 @@ To download all videos from one or more YouTube channels, use the `--channels` f
 ytextract --channels officialalphablocks Numberblocks
 ```
 
+### YouTube Proxy Server
+
+ytextract includes a built-in proxy server that can cache and stream YouTube videos over your local network. This is perfect for:
+
+- **Home NAS setups** - Run the server on your NAS and stream videos to devices with restricted internet access
+- **Limited bandwidth connections** - Download videos once and stream locally for repeat watches, saving bandwidth
+- **Offline viewing** - Pre-download videos and serve them to devices without internet access
+- **Parental controls** - Restrict direct YouTube access while still allowing curated content
+
+#### Starting the server
+
+Start the server in the foreground:
+
+```bash
+ytextract --server start
+```
+
+Start the server in the background (daemon mode):
+
+```bash
+ytextract --server start --daemon
+```
+
+You can also specify a custom host and port:
+
+```bash
+ytextract --server start --host 0.0.0.0 --port 8765 --daemon
+```
+
+#### Stopping the server
+
+```bash
+ytextract --server stop
+```
+
+#### Checking server status
+
+```bash
+ytextract --server status
+```
+
+#### API Endpoints
+
+Once the server is running, you can access the following endpoints:
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | API information and available endpoints |
+| `/health` | GET | Health check |
+| `/watch?v={video_id}` | GET | Stream a video (auto-downloads if not cached) |
+| `/download/video` | POST | Download a video by URL |
+| `/download/captions` | POST | Download captions only |
+| `/download/file` | POST | Download videos from a file |
+| `/download/channels` | POST | Download videos from channels |
+
+#### Streaming videos
+
+To stream a video, simply navigate to:
+
+```
+http://your-server:8765/watch?v=VIDEO_ID
+```
+
+If the video is already cached locally, it streams immediately. If not, it downloads the video first and then streams it. You can also specify a language for captions:
+
+```
+http://your-server:8765/watch?v=VIDEO_ID&language=en-US
+```
+
+#### Example: Download and stream a video via API
+
+```bash
+# Download a video
+curl -X POST http://localhost:8765/download/video \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://youtube.com/watch?v=VIDEO_ID", "language": "en-US"}'
+
+# Stream the video in a browser
+# Open: http://localhost:8765/watch?v=VIDEO_ID
+```
+
 
 ### Using ytextract in a Python script
 

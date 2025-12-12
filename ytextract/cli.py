@@ -17,6 +17,9 @@ Examples:
   ytextract --captions https://youtube.com/watch?v=ID     Download captions only
   ytextract --file videos.txt                             Download videos from a file
   ytextract --channels channel1 channel2                  Download from channels
+  ytextract --server start                                Start the API server
+  ytextract --server stop                                 Stop the API server
+  ytextract --server status                               Check server status
         """,
     )
 
@@ -54,7 +57,48 @@ Examples:
         help="Download videos from one or more YouTube channels",
     )
 
+    parser.add_argument(
+        "--server",
+        choices=["start", "stop", "status"],
+        metavar="ACTION",
+        help="Server control: start, stop, or status",
+    )
+
+    parser.add_argument(
+        "--host",
+        type=str,
+        default="0.0.0.0",
+        help="Server host address (default: 0.0.0.0)",
+    )
+
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=8765,
+        help="Server port (default: 8765)",
+    )
+
+    parser.add_argument(
+        "--daemon",
+        "-d",
+        action="store_true",
+        help="Run server in background (daemon mode)",
+    )
+
     args = parser.parse_args()
+
+    # Handle server commands
+    if args.server:
+        from ytextract.server import start_server, stop_server, server_status
+
+        if args.server == "start":
+            start_server(host=args.host, port=args.port, daemon=args.daemon)
+        elif args.server == "stop":
+            stop_server()
+        elif args.server == "status":
+            status = server_status()
+            print(status["message"])
+        sys.exit(0)
 
     # Check that at least one action is specified
     if not args.url and not args.file and not args.channels:

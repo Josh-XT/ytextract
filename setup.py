@@ -7,7 +7,7 @@ from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
@@ -28,6 +28,9 @@ setup(
     install_requires=[
         "selenium",
         "webdriver-manager",
+        "fastapi",
+        "uvicorn",
+        "pydantic",
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",

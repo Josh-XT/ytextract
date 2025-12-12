@@ -29,4 +29,17 @@ from ytextract.download_helper import (
     get_videos_from_channel,
 )
 
+# Server functions - lazy import to avoid dependency issues
+def start_server(*args, **kwargs):
+    from ytextract.server import start_server as _start_server
+    return _start_server(*args, **kwargs)
+
+def stop_server(*args, **kwargs):
+    from ytextract.server import stop_server as _stop_server
+    return _stop_server(*args, **kwargs)
+
+def server_status(*args, **kwargs):
+    from ytextract.server import server_status as _server_status
+    return _server_status(*args, **kwargs)
+
 download = download_video

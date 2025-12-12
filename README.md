@@ -26,7 +26,7 @@ Furthermore, *ytextract* includes a command-line utility, allowing you to downlo
 
 ### Installation
 
-ytextract requires an installation of Python 3.7 or greater, as well as pip. (Pip is typically bundled with Python [installations](https://python.org/downloads).)
+ytextract requires an installation of Python 3.7 or greater, as well as pip. (Pip is typically bundled with Python [installations](https://python.org/downloads).) If installing from source, git is also required.
 
 To install from PyPI with pip:
 
@@ -37,6 +37,7 @@ pip install ytextract
 Or install from source:
 
 ```bash
+git clone https://github.com/Josh-XT/ytextract
 pip install -e .
 ```
 

@@ -21,3 +21,10 @@ from pyyt.captions import Caption
 from pyyt.query import CaptionQuery, StreamQuery
 from pyyt.__main__ import YouTube
 from pyyt.innertube import InnerTube
+from pyyt.download_helper import (
+    download_video,
+    download_videos_from_channels,
+    download_videos_from_list,
+    download_captions,
+    get_videos_from_channel,
+)

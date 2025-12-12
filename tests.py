@@ -1,4 +1,4 @@
-from pyyt.download_helper import download_video, download_captions
+from pyyt import download_video, download_captions
 
 TEST_VIDEO_URL = "https://www.youtube.com/watch?v=aqz-KE-bpKQ"
 

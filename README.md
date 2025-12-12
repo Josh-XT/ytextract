@@ -40,6 +40,43 @@ Or install from source:
 pip install -e .
 ```
 
+### Using the command-line interface
+
+Use the `pyyt` command in a terminal to download videos, captions, or multiple videos from a list or channel.
+
+#### Download a single video
+
+To download a video at the highest progressive quality, you can use the following command:
+
+```bash
+pyyt https://youtube.com/watch?v=2lAe1cqCOXo
+```
+
+#### Download captions for a video
+
+To download only captions for a video, use the `--captions` flag:
+
+```bash
+pyyt --captions https://youtube.com/watch?v=2lAe1cqCOXo
+```
+
+#### Download Videos from a list from videos.txt
+
+To download multiple videos from a text file containing YouTube video URLs (one URL per line), use the `--list` flag:
+
+```bash
+pyyt --list videos.txt
+```
+
+#### Download Videos from a Channel, or multiple Channels
+
+To download all videos from one or more YouTube channels, use the `--channels` flag followed by the channel usernames:
+
+```bash
+pyyt --channels officialalphablocks Numberblocks
+```
+
+
 ### Using pyyt in a Python script
 
 To download a video using the library in a script, you'll need to import the YouTube class from the library and pass an argument of the video URL. From there, you can access the streams and download them.
@@ -82,14 +119,6 @@ You can specify one or more channel usernames in the `channels` parameter to dow
 from pyyt import download_videos_from_channels
 
 download_videos_from_channels(channels=["officialalphablocks", "Numberblocks"])
-```
-
-### Using the command-line interface
-
-Using the CLI is remarkably straightforward as well. To download a video at the highest progressive quality, you can use the following command:
-
-```bash
-pyyt https://youtube.com/watch?v=2lAe1cqCOXo
 ```
 
 ## License

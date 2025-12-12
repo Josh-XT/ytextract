@@ -46,6 +46,8 @@ To download a video using the library in a script, you'll need to import the You
 
 #### Download a single video
 
+Set the `url` parameter to the YouTube video URL you wish to download.
+
 ```python
 from pyyt import download_video
 
@@ -54,13 +56,17 @@ download_video(url="https://www.youtube.com/watch?v=VIDEO_ID")
 
 #### Download captions for a video
 
+Set the `url` parameter to the YouTube video URL you wish to download captions for.
+
 ```python
 from pyyt import download_captions
 
 download_captions(url="https://www.youtube.com/watch?v=VIDEO_ID")
 ```
 
-#### Download Videos from a list, for example, videos.txt
+#### Download Videos from a list from videos.txt
+
+You can change the filename argument to any text file containing YouTube video URLs (one URL per line).
 
 ```python
 from pyyt import download_videos_from_list

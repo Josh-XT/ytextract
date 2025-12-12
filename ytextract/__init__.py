@@ -28,3 +28,5 @@ from ytextract.download_helper import (
     download_captions,
     get_videos_from_channel,
 )
+
+download = download_video

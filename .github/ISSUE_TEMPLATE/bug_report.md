@@ -8,8 +8,8 @@ assignees: ''
 ---
 **Before creating an issue**
 
-Please confirm that you are on the latest version of pyyt by installing from the source.
-You can do this by running `python -m pip install git+https://github.com/Josh-XT/pyyt`.
+Please confirm that you are on the latest version of ytextract by installing from the source.
+You can do this by running `python -m pip install git+https://github.com/Josh-XT/ytextract`.
 Sometimes, the pypi library repository is not up to date, and your issue may have been fixed already!
 
 **Describe the bug**
@@ -24,10 +24,10 @@ Please provide the following information:
 A clear and concise description of what you expected to happen.
 
 **Output**
-If pyyt raises an exception, please provide the full traceback for the exception.
+If ytextract raises an exception, please provide the full traceback for the exception.
 
 **System information**
 Please provide the following information:
 - Python version (run `python --version`)
-- pyyt version (run `print(pyyt.__version__)` in python)
-- Command used to install pyyt
+- ytextract version (run `print(ytextract.__version__)` in python)
+- Command used to install ytextract

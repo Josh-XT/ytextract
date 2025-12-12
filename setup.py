@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""This module contains setup instructions for pyyt."""
+"""This module contains setup instructions for ytextract."""
 import codecs
 import os
 
@@ -13,17 +13,17 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
 setup(
-    name="pyyt",
+    name="ytextract",
     version=__version__,
     author="Josh-XT",
-    packages=["pyyt"],
+    packages=["ytextract"],
     package_data={
         "": ["LICENSE"],
     },
-    url="https://github.com/Josh-XT/pyyt",
+    url="https://github.com/Josh-XT/ytextract",
     license="The Unlicense (Unlicense)",
     entry_points={
-        "console_scripts": ["pyyt = pyyt.cli:main"],
+        "console_scripts": ["ytextract = ytextract.cli:main"],
     },
     install_requires=[
         "selenium",
@@ -54,7 +54,7 @@ setup(
     long_description=long_description,
     zip_safe=True,
     python_requires=">=3.7",
-    project_urls={"Bug Reports": "https://github.com/Josh-XT/pyyt/issues"},
+    project_urls={"Bug Reports": "https://github.com/Josh-XT/ytextract/issues"},
     keywords=[
         "youtube",
         "download",

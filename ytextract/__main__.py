@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 class YouTube:
-    """Core developer interface for pyyt."""
+    """Core developer interface for ytextract."""
 
     def __init__(
         self,
@@ -92,7 +92,7 @@ class YouTube:
         self.allow_oauth_cache = allow_oauth_cache
 
     def __repr__(self):
-        return f"<pyyt.__main__.YouTube object: videoId={self.video_id}>"
+        return f"<ytextract.__main__.YouTube object: videoId={self.video_id}>"
 
     def __eq__(self, o: object) -> bool:
         # Compare types and urls, if they're same return true, else return false.
@@ -138,12 +138,12 @@ class YouTube:
 
         # If the js_url doesn't match the cached url, fetch the new js and update
         #  the cache; otherwise, load the cache.
-        if pyyt.__js_url__ != self.js_url:
+        if ytextract.__js_url__ != self.js_url:
             self._js = request.get(self.js_url)
-            pyyt.__js__ = self._js
-            pyyt.__js_url__ = self.js_url
+            ytextract.__js__ = self._js
+            ytextract.__js_url__ = self.js_url
         else:
-            self._js = pyyt.__js__
+            self._js = ytextract.__js__
 
         return self._js
 
@@ -179,15 +179,15 @@ class YouTube:
         stream_manifest = extract.apply_descrambler(self.streaming_data)
 
         # If the cached js doesn't work, try fetching a new js file
-        # https://github.com/Josh-XT/pyyt/issues/1054
+        # https://github.com/Josh-XT/ytextract/issues/1054
         try:
             extract.apply_signature(stream_manifest, self.vid_info, self.js)
         except exceptions.ExtractError:
             # To force an update to the js file, we clear the cache and retry
             self._js = None
             self._js_url = None
-            pyyt.__js__ = None
-            pyyt.__js_url__ = None
+            ytextract.__js__ = None
+            ytextract.__js_url__ = None
             extract.apply_signature(stream_manifest, self.vid_info, self.js)
 
         # build instances of :class:`Stream <Stream>`
@@ -282,7 +282,7 @@ class YouTube:
         self._vid_info = innertube_response
 
     @property
-    def caption_tracks(self) -> List[pyyt.Caption]:
+    def caption_tracks(self) -> List[ytextract.Caption]:
         """Get a list of :class:`Caption <Caption>`.
 
         :rtype: List[Caption]
@@ -292,15 +292,15 @@ class YouTube:
             .get("playerCaptionsTracklistRenderer", {})
             .get("captionTracks", [])
         )
-        return [pyyt.Caption(track) for track in raw_tracks]
+        return [ytextract.Caption(track) for track in raw_tracks]
 
     @property
-    def captions(self) -> pyyt.CaptionQuery:
+    def captions(self) -> ytextract.CaptionQuery:
         """Interface to query caption tracks.
 
         :rtype: :class:`CaptionQuery <CaptionQuery>`.
         """
-        return pyyt.CaptionQuery(self.caption_tracks)
+        return ytextract.CaptionQuery(self.caption_tracks)
 
     @property
     def streams(self) -> StreamQuery:
@@ -357,10 +357,10 @@ class YouTube:
             # Check_availability will raise the correct exception in most cases
             #  if it doesn't, ask for a report.
             self.check_availability()
-            raise exceptions.PyytError(
+            raise exceptions.YtextractError(
                 (
                     f"Exception while accessing title of {self.watch_url}. "
-                    "Please file a bug report at https://github.com/Josh-XT/pyyt"
+                    "Please file a bug report at https://github.com/Josh-XT/ytextract"
                 )
             )
 

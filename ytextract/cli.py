@@ -3,13 +3,7 @@
 import argparse
 import sys
 
-from ytextract import __version__
-from ytextract.download_helper import (
-    download_video,
-    download_captions,
-    download_videos_from_list,
-    download_videos_from_channels,
-)
+import ytextract
 
 
 def main():
@@ -29,7 +23,7 @@ Examples:
     parser.add_argument(
         "--version",
         action="version",
-        version=f"%(prog)s {__version__}",
+        version=f"%(prog)s {ytextract.__version__}",
     )
 
     parser.add_argument(
@@ -70,12 +64,12 @@ Examples:
     # Handle different modes
     if args.channels:
         print(f"Downloading videos from channels: {', '.join(args.channels)}")
-        result = download_videos_from_channels(channels=args.channels)
+        result = ytextract.download_videos_from_channels(channels=args.channels)
         print(result)
 
     elif args.file:
         print(f"Downloading videos from file: {args.file}")
-        result = download_videos_from_list(filename=args.file)
+        result = ytextract.download_videos_from_list(filename=args.file)
         print(result)
 
     elif args.url:
@@ -85,11 +79,11 @@ Examples:
 
         if args.captions:
             print(f"Downloading captions for: {args.url}")
-            result = download_captions(url=args.url)
+            result = ytextract.download_captions(url=args.url)
             print(result)
         else:
             print(f"Downloading video: {args.url}")
-            result = download_video(url=args.url)
+            result = ytextract.download_video(url=args.url)
             print(result)
 
 

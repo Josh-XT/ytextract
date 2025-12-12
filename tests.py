@@ -1,8 +1,8 @@
-from pyyt import download_video, download_captions
+import ytextract
 
 TEST_VIDEO_URL = "https://www.youtube.com/watch?v=aqz-KE-bpKQ"
 
 print("Download a Video from URL:")
-print(download_video(url=TEST_VIDEO_URL))
+print(ytextract.download_video(url=TEST_VIDEO_URL))
 print("Download Captions for Video:")
-print(download_captions(url=TEST_VIDEO_URL))
+print(ytextract.download_captions(url=TEST_VIDEO_URL))

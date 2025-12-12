@@ -1,16 +1,16 @@
-# pyyt
+# ytextract
 
-*pyyt* is a genuine, lightweight Python library (and command-line utility) for downloading YouTube videos.
+*ytextract* is a genuine, lightweight Python library (and command-line utility) for downloading YouTube videos.
 
 ## Description
 
-YouTube is the most popular video-sharing platform in the world and as a hacker, you may encounter a situation where you want to script something to download videos. For this, I present to you: *pyyt*.
+YouTube is the most popular video-sharing platform in the world and as a hacker, you may encounter a situation where you want to script something to download videos. For this, I present to you: *ytextract*.
 
-*pyyt* is a lightweight library written in Python. It has minimal dependencies and aims to be highly reliable.
+*ytextract* is a lightweight library written in Python. It has minimal dependencies and aims to be highly reliable.
 
-*pyyt* also makes pipelining easy, allowing you to specify callback functions for different download events, such as ``on progress`` or ``on complete``.
+*ytextract* also makes pipelining easy, allowing you to specify callback functions for different download events, such as ``on progress`` or ``on complete``.
 
-Furthermore, *pyyt* includes a command-line utility, allowing you to download videos right from the terminal.
+Furthermore, *ytextract* includes a command-line utility, allowing you to download videos right from the terminal.
 
 ## Features
 
@@ -26,12 +26,12 @@ Furthermore, *pyyt* includes a command-line utility, allowing you to download vi
 
 ### Installation
 
-pyyt requires an installation of Python 3.7 or greater, as well as pip. (Pip is typically bundled with Python [installations](https://python.org/downloads).)
+ytextract requires an installation of Python 3.7 or greater, as well as pip. (Pip is typically bundled with Python [installations](https://python.org/downloads).)
 
 To install from PyPI with pip:
 
 ```bash
-pip install pyyt
+pip install ytextract
 ```
 
 Or install from source:
@@ -42,14 +42,14 @@ pip install -e .
 
 ### Using the command-line interface
 
-Use the `pyyt` command in a terminal to download videos, captions, or multiple videos from a list or channel.
+Use the `ytextract` command in a terminal to download videos, captions, or multiple videos from a list or channel.
 
 #### Download a single video
 
 To download a video at the highest progressive quality, you can use the following command:
 
 ```bash
-pyyt https://youtube.com/watch?v=2lAe1cqCOXo
+ytextract https://youtube.com/watch?v=2lAe1cqCOXo
 ```
 
 #### Download captions for a video
@@ -57,7 +57,7 @@ pyyt https://youtube.com/watch?v=2lAe1cqCOXo
 To download only captions for a video, use the `--captions` flag:
 
 ```bash
-pyyt --captions https://youtube.com/watch?v=2lAe1cqCOXo
+ytextract --captions https://youtube.com/watch?v=2lAe1cqCOXo
 ```
 
 #### Download Videos from a list in a text file
@@ -65,7 +65,7 @@ pyyt --captions https://youtube.com/watch?v=2lAe1cqCOXo
 To download multiple videos from a text file containing YouTube video URLs (one URL per line), use the `--file` flag:
 
 ```bash
-pyyt --file videos.txt
+ytextract --file videos.txt
 ```
 
 #### Download Videos from a Channel, or multiple Channels
@@ -73,22 +73,22 @@ pyyt --file videos.txt
 To download all videos from one or more YouTube channels, use the `--channels` flag followed by the channel usernames:
 
 ```bash
-pyyt --channels officialalphablocks Numberblocks
+ytextract --channels officialalphablocks Numberblocks
 ```
 
 
-### Using pyyt in a Python script
+### Using ytextract in a Python script
 
-To download a video using the library in a script, you'll need to import the YouTube class from the library and pass an argument of the video URL. From there, you can access the streams and download them.
+To download a video using the library in a script, simply import ytextract and call the helper functions directly.
 
 #### Download a single video
 
 Set the `url` parameter to the YouTube video URL you wish to download.
 
 ```python
-from pyyt import download_video
+import ytextract
 
-download_video(url="https://www.youtube.com/watch?v=VIDEO_ID")
+ytextract.download(url="https://www.youtube.com/watch?v=VIDEO_ID")
 ```
 
 #### Download captions for a video
@@ -96,9 +96,9 @@ download_video(url="https://www.youtube.com/watch?v=VIDEO_ID")
 Set the `url` parameter to the YouTube video URL you wish to download captions for.
 
 ```python
-from pyyt import download_captions
+import ytextract
 
-download_captions(url="https://www.youtube.com/watch?v=VIDEO_ID")
+ytextract.download_captions(url="https://www.youtube.com/watch?v=VIDEO_ID")
 ```
 
 #### Download Videos from a list from videos.txt
@@ -106,9 +106,9 @@ download_captions(url="https://www.youtube.com/watch?v=VIDEO_ID")
 You can change the filename argument to any text file containing YouTube video URLs (one URL per line).
 
 ```python
-from pyyt import download_videos_from_list
+import ytextract
 
-download_videos_from_list(filename="videos.txt")
+ytextract.download_videos_from_list(filename="videos.txt")
 ```
 
 #### Download Videos from a Channel, or multiple Channels
@@ -116,9 +116,9 @@ download_videos_from_list(filename="videos.txt")
 You can specify one or more channel usernames in the `channels` parameter to download all videos from those channels.
 
 ```python
-from pyyt import download_videos_from_channels
+import ytextract
 
-download_videos_from_channels(channels=["officialalphablocks", "Numberblocks"])
+ytextract.download_videos_from_channels(channels=["officialalphablocks", "Numberblocks"])
 ```
 
 ## License
@@ -127,4 +127,4 @@ This project is licensed under The Unlicense - see the [LICENSE](LICENSE) file f
 
 ## Contributing
 
-Feel free to open an issue or a pull request at https://github.com/Josh-XT/pyyt
+Feel free to open an issue or a pull request at https://github.com/Josh-XT/ytextract

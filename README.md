@@ -60,12 +60,12 @@ To download only captions for a video, use the `--captions` flag:
 pyyt --captions https://youtube.com/watch?v=2lAe1cqCOXo
 ```
 
-#### Download Videos from a list from videos.txt
+#### Download Videos from a list in a text file
 
-To download multiple videos from a text file containing YouTube video URLs (one URL per line), use the `--list` flag:
+To download multiple videos from a text file containing YouTube video URLs (one URL per line), use the `--file` flag:
 
 ```bash
-pyyt --list videos.txt
+pyyt --file videos.txt
 ```
 
 #### Download Videos from a Channel, or multiple Channels

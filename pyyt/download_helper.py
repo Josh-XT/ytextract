@@ -34,7 +34,7 @@ def get_videos_from_channel(channel_name: str = ""):
     return video_ids
 
 
-def download_video(url: str = ""):
+def download_video(url: str = "", language: str = "en-US"):
     if not url:
         return "No URL provided."
     os.makedirs("videos", exist_ok=True)
@@ -51,18 +51,35 @@ def download_video(url: str = ""):
         output_video = yt.title.replace(" ", "_")
         output_video = "".join([c for c in output_video if c.isalnum() or c in "._- "])
         video_stream.download(output_path="videos", filename=f"{output_video}.mp4")
-    yt.captions["en-US"].download(title=f"{output_video}.srt", output_path="videos")
-    yt.captions["en-US"].json_captions
-    transcript = f"Transcription of video titled `{yt.title}` at {url}:\n"
-    for event in yt.captions["en-US"].json_captions["events"]:
-        for seg in event["segs"]:
-            transcript += seg["utf8"]
-    text = transcript.replace("\xa0", " ").replace("  ", " ").replace(" \n", " ")
+
     video_path = os.path.abspath(f"videos/{output_video}.mp4")
-    transcript_path = os.path.abspath(f"videos/{output_video}.txt")
-    with open(transcript_path, "w") as f:
-        f.write(text)
-    return f"Downloaded video from {url}\n  Video: {video_path}\n  Transcript: {transcript_path}"
+    transcript_path = None
+
+    # Try to get captions if available
+    try:
+        caption_track = yt.captions.get(language)
+        if caption_track:
+            caption_track.download(title=f"{output_video}.srt", output_path="videos")
+            transcript = f"Transcription of video titled `{yt.title}` at {url}:\n"
+            for event in caption_track.json_captions["events"]:
+                if "segs" in event:
+                    for seg in event["segs"]:
+                        transcript += seg.get("utf8", "")
+            text = (
+                transcript.replace("\xa0", " ").replace("  ", " ").replace(" \n", " ")
+            )
+            transcript_path = os.path.abspath(f"videos/{output_video}.txt")
+            with open(transcript_path, "w") as f:
+                f.write(text)
+    except Exception as e:
+        pass  # Captions not available or failed to download
+
+    result = f"Downloaded video from {url}\n  Video: {video_path}"
+    if transcript_path:
+        result += f"\n  Transcript: {transcript_path}"
+    else:
+        result += "\n  Transcript: Not available"
+    return result
 
 
 def download_videos_from_channels(channels=[]):
@@ -99,20 +116,24 @@ def download_videos_from_list(filename="videos.txt"):
     return "Downloaded videos from list:\n" + "\n".join(downloaded_files)
 
 
-def download_captions(url: str = ""):
+def download_captions(url: str = "", language: str = "en-US"):
     if not url:
         return "No URL provided."
     os.makedirs("captions", exist_ok=True)
     yt = YouTube(url)
-    video_stream = yt.streams.get_lowest_resolution()
     output_video = yt.title.replace(" ", "_")
     output_video = "".join([c for c in output_video if c.isalnum() or c in "._- "])
-    yt.captions["en-US"].download(title=f"{output_video}.srt", output_path="captions")
-    yt.captions["en-US"].json_captions
+
+    caption_track = yt.captions.get(language)
+    if not caption_track:
+        return f"No captions available for language '{language}' in video: {yt.title}"
+
+    caption_track.download(title=f"{output_video}.srt", output_path="captions")
     transcript = f"Captions of video titled `{yt.title}` at {url}:\n"
-    for event in yt.captions["en-US"].json_captions["events"]:
-        for seg in event["segs"]:
-            transcript += seg["utf8"]
+    for event in caption_track.json_captions["events"]:
+        if "segs" in event:
+            for seg in event["segs"]:
+                transcript += seg.get("utf8", "")
     text = transcript.replace("\xa0", " ").replace("  ", " ").replace(" \n", " ")
     # Find anything between [Ad Start] and [Ad End] and remove it
     text = re.sub(r"\[Ad Start\].*?\[Ad End\]", "", text, flags=re.DOTALL)

@@ -45,13 +45,13 @@ pip install -e .
 To download a video using the library in a script, you'll need to import the YouTube class from the library and pass an argument of the video URL. From there, you can access the streams and download them.
 
 ```python
-from pyyt.download_helper import (
-    download_video,
-    download_captions,
-)
+from pyyt.download_helper import download_video, download_captions
 
 # Download a single video
 download_video(url="https://www.youtube.com/watch?v=VIDEO_ID")
+
+# Download captions for a video
+download_captions(url="https://www.youtube.com/watch?v=VIDEO_ID")
 ```
 
 ### Using the command-line interface

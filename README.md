@@ -76,6 +76,8 @@ download_videos_from_list(filename="videos.txt")
 
 #### Download Videos from a Channel, or multiple Channels
 
+You can specify one or more channel usernames in the `channels` parameter to download all videos from those channels.
+
 ```python
 from pyyt import download_videos_from_channels
 

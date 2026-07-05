@@ -39,7 +39,7 @@ _api_keys = [
 _default_clients = {
     "WEB": {
         "context": {
-            "client": {"clientName": "WEB", "clientVersion": "2.20200918.00.02"}
+            "client": {"clientName": "WEB", "clientVersion": "2.20260114.08.00"}
         },
         "header": {"User-Agent": "Mozilla/5.0"},
         "api_key": "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
@@ -48,13 +48,19 @@ _default_clients = {
         "context": {
             "client": {
                 "clientName": "ANDROID",
-                # 'clientVersion': '17.31.35',
-                "clientVersion": "19.08.35",
-                "androidSdkVersion": 32,
+                "clientVersion": "21.02.35",
+                "androidSdkVersion": 30,
+                "userAgent": (
+                    "com.google.android.youtube/21.02.35 " "(Linux; U; Android 11) gzip"
+                ),
+                "osName": "Android",
+                "osVersion": "11",
             }
         },
         "header": {
-            "User-Agent": "com.google.android.youtube/",
+            "User-Agent": (
+                "com.google.android.youtube/21.02.35 " "(Linux; U; Android 11) gzip"
+            ),
         },
         "api_key": "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
     },
@@ -62,18 +68,30 @@ _default_clients = {
         "context": {
             "client": {
                 "clientName": "IOS",
-                "clientVersion": "17.33.2",
-                "deviceModel": "iPhone14,3",
+                "clientVersion": "21.02.3",
+                "deviceMake": "Apple",
+                "deviceModel": "iPhone16,2",
+                "userAgent": (
+                    "com.google.ios.youtube/21.02.3 "
+                    "(iPhone16,2; U; CPU iOS 18_3_2 like Mac OS X;)"
+                ),
+                "osName": "iPhone",
+                "osVersion": "18.3.2.22D82",
             }
         },
-        "header": {"User-Agent": "com.google.ios.youtube/"},
+        "header": {
+            "User-Agent": (
+                "com.google.ios.youtube/21.02.3 "
+                "(iPhone16,2; U; CPU iOS 18_3_2 like Mac OS X;)"
+            )
+        },
         "api_key": "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
     },
     "WEB_EMBED": {
         "context": {
             "client": {
                 "clientName": "WEB_EMBEDDED_PLAYER",
-                "clientVersion": "2.20210721.00.00",
+                "clientVersion": "1.20260115.01.00",
                 "clientScreen": "EMBED",
             }
         },
@@ -107,7 +125,7 @@ _default_clients = {
         "context": {
             "client": {
                 "clientName": "WEB_REMIX",
-                "clientVersion": "1.20220727.01.00",
+                "clientVersion": "1.20260114.03.00",
             }
         },
         "header": {"User-Agent": "Mozilla/5.0"},
@@ -176,20 +194,42 @@ _default_clients = {
         "context": {
             "client": {
                 "clientName": "MWEB",
-                "clientVersion": "2.20220801.00.00",
+                "clientVersion": "2.20260115.01.00",
+                "userAgent": (
+                    "Mozilla/5.0 (iPad; CPU OS 16_7_10 like Mac OS X) "
+                    "AppleWebKit/605.1.15 (KHTML, like Gecko) "
+                    "Version/16.6 Mobile/15E148 Safari/604.1,gzip(gfe)"
+                ),
             }
         },
-        "header": {"User-Agent": "Mozilla/5.0"},
+        "header": {
+            "User-Agent": (
+                "Mozilla/5.0 (iPad; CPU OS 16_7_10 like Mac OS X) "
+                "AppleWebKit/605.1.15 (KHTML, like Gecko) "
+                "Version/16.6 Mobile/15E148 Safari/604.1,gzip(gfe)"
+            )
+        },
         "api_key": "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
     },
     "TV_EMBED": {
         "context": {
             "client": {
-                "clientName": "TVHTML5_SIMPLY_EMBEDDED_PLAYER",
-                "clientVersion": "2.0",
+                "clientName": "TVHTML5",
+                "clientVersion": "7.20260114.12.00",
+                "userAgent": (
+                    "Mozilla/5.0 (ChromiumStylePlatform) "
+                    "Cobalt/25.lts.30.1034943-gold (unlike Gecko), "
+                    "Unknown_TV_Unknown_0/Unknown (Unknown, Unknown)"
+                ),
             }
         },
-        "header": {"User-Agent": "Mozilla/5.0"},
+        "header": {
+            "User-Agent": (
+                "Mozilla/5.0 (ChromiumStylePlatform) "
+                "Cobalt/25.lts.30.1034943-gold (unlike Gecko), "
+                "Unknown_TV_Unknown_0/Unknown (Unknown, Unknown)"
+            )
+        },
         "api_key": "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
     },
 }

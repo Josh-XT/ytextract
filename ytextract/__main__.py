@@ -159,9 +159,11 @@ class YouTube:
         """Return streamingData from video info."""
         if "streamingData" in self.vid_info:
             return self.vid_info["streamingData"]
-        else:
-            self.bypass_age_gate()
-            return self.vid_info["streamingData"]
+        self.bypass_age_gate()
+        if "streamingData" not in self.vid_info:
+            self.raise_for_player_response(self.vid_info)
+            raise exceptions.VideoUnavailable(video_id=self.video_id)
+        return self.vid_info["streamingData"]
 
     @property
     def fmt_streams(self):
@@ -234,6 +236,33 @@ class YouTube:
                     raise exceptions.VideoUnavailable(video_id=self.video_id)
             elif status == "LIVE_STREAM":
                 raise exceptions.LiveStreamError(video_id=self.video_id)
+        if self._vid_info:
+            self.raise_for_player_response(self._vid_info)
+
+    def raise_for_player_response(self, player_response: Dict) -> None:
+        """Raise a stable ytextract exception for an Innertube player response."""
+        status_dict = player_response.get("playabilityStatus", {})
+        status = status_dict.get("status")
+        messages = status_dict.get("messages") or []
+        reason = status_dict.get("reason") or " ".join(str(item) for item in messages)
+        normalized_reason = (reason or "").lower()
+        if status == "LIVE_STREAM" or status_dict.get("liveStreamability"):
+            raise exceptions.LiveStreamError(video_id=self.video_id)
+        if (
+            "members-only" in normalized_reason
+            or "join this channel" in normalized_reason
+        ):
+            raise exceptions.MembersOnly(video_id=self.video_id)
+        if status == "LOGIN_REQUIRED" or "sign in" in normalized_reason:
+            if "age" in normalized_reason or "confirm your age" in normalized_reason:
+                raise exceptions.AgeRestrictedError(video_id=self.video_id)
+            raise exceptions.VideoPrivate(video_id=self.video_id)
+        if status in {"UNPLAYABLE", "ERROR"}:
+            if "private" in normalized_reason:
+                raise exceptions.VideoPrivate(video_id=self.video_id)
+            if "age" in normalized_reason:
+                raise exceptions.AgeRestrictedError(video_id=self.video_id)
+            raise exceptions.VideoUnavailable(video_id=self.video_id)
 
     @property
     def vid_info(self):
@@ -274,9 +303,10 @@ class YouTube:
         innertube_response = innertube.player(self.video_id)
         playability_status = innertube_response["playabilityStatus"].get("status", None)
 
-        # If we still can't access the video, raise an exception
-        # (tier 3 age restriction)
-        if playability_status == "UNPLAYABLE":
+        # If we still can't access the video, raise an exception with a stable
+        # public error instead of letting a later streamingData lookup KeyError.
+        if playability_status != "OK" or "streamingData" not in innertube_response:
+            self.raise_for_player_response(innertube_response)
             raise exceptions.AgeRestrictedError(self.video_id)
 
         self._vid_info = innertube_response

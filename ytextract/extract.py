@@ -441,8 +441,8 @@ def apply_signature(stream_manifest: Dict, vid_info: Dict, js: str) -> None:
         # Convert query params off url to dict
         query_params = parse_qs(urlparse(url).query)
         query_params = {k: v[0] for k, v in query_params.items()}
-        query_params["sig"] = signature
-        if "ratebypass" not in query_params.keys():
+        query_params[stream.get("sp", "sig")] = signature
+        if "ratebypass" not in query_params.keys() and "n" in query_params:
             # Cipher n to get the updated value
 
             initial_n = list(query_params["n"])
@@ -483,17 +483,34 @@ def apply_descrambler(stream_data: Dict) -> None:
     if "adaptiveFormats" in stream_data.keys():
         formats.extend(stream_data["adaptiveFormats"])
 
-    # Extract url and s from signatureCiphers as necessary
+    # Extract url and s from signatureCiphers as necessary. Newer YouTube
+    # player responses can include SABR/adaptive format entries that have no
+    # direct URL and no cipher. Those are not downloadable through this legacy
+    # stream path, so keep only entries that expose a direct media URL.
+    downloadable_formats = []
     for data in formats:
         if "url" not in data:
-            if "signatureCipher" in data:
-                cipher_url = parse_qs(data["signatureCipher"])
-                data["url"] = cipher_url["url"][0]
-                data["s"] = cipher_url["s"][0]
+            cipher_payload = data.get("signatureCipher") or data.get("cipher")
+            if cipher_payload:
+                cipher_url = parse_qs(cipher_payload)
+                url = cipher_url.get("url", [None])[0]
+                if url:
+                    data["url"] = url
+                    if "s" in cipher_url:
+                        data["s"] = cipher_url["s"][0]
+                    if "sp" in cipher_url:
+                        data["sp"] = cipher_url["sp"][0]
+        if "url" not in data:
+            logger.debug(
+                "skipping non-downloadable stream entry without url/cipher: itag=%s",
+                data.get("itag"),
+            )
+            continue
         data["is_otf"] = data.get("type") == "FORMAT_STREAM_TYPE_OTF"
+        downloadable_formats.append(data)
 
     logger.debug("applying descrambler")
-    return formats
+    return downloadable_formats
 
 
 def initial_data(watch_html: str) -> str:

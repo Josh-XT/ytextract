@@ -8,7 +8,7 @@ from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
